@@ -1,29 +1,18 @@
-import { useEffect } from "react";
+import { Box, Heading } from "@kuma-ui/core";
+import { Suspense } from "react";
+import FmlTable from "./FmlTable";
 
 export default function App() {
-  useEffect(() => {
-    (async () => {
-      // @ts-ignore
-      const { default: module } = await import("lib-fml-web");
-      const Module = await module();
-      const api = {
-        parse: Module.cwrap("parse", "string", ["string"], []),
-        compile: Module.cwrap(
-          "compileToInstructions",
-          "string",
-          ["string"],
-          []
-        ),
-        test: Module.cwrap("test", "number", ["string", "string"], []),
-      };
-      const parseResult = api.parse("a|a");
-      const compileResult = api.compile("a|a");
-      const testResult = api.test("a|b", "c");
-      console.log(parseResult);
-      console.log(compileResult);
-      console.log(testResult);
-    })();
-  }, []);
-
-  return <h1>Hello</h1>;
+  return (
+    <div>
+      <Box p={4} bg="black">
+        <Heading color="white" m="unset">
+          Fml Web
+        </Heading>
+      </Box>
+      <Suspense fallback={<div>Loading...</div>}>
+        <FmlTable />
+      </Suspense>
+    </div>
+  );
 }
