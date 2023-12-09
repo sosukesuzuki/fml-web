@@ -53,16 +53,22 @@ export default function FmlTable() {
     }
     const insts: string[] = JSON.parse(fml.compile(expression));
     let longestInstLength = 0;
+    let longestIdxLength = 0;
     const parsed: { idx: number; instruction: string; operands: string[] }[] =
       insts.map((instStr, idx) => {
         longestInstLength = Math.max(longestInstLength, instStr.length);
+        longestIdxLength = Math.max(longestIdxLength, idx.toString().length);
         const [instruction, ...operands] = instStr.split(" ");
         return { idx, instruction, operands };
       });
     return parsed.reduce((acc, { idx, instruction, operands }) => {
       const operandsStr = operands.join(", ");
-      const padding = " ".repeat(longestInstLength - instruction.length);
-      return acc + `${idx}: ${instruction}${padding} ${operandsStr}\n`;
+      const idxPadding = " ".repeat(longestIdxLength - idx.toString().length);
+      const instPadding = " ".repeat(longestInstLength - instruction.length);
+      return (
+        acc +
+        `${idx}${idxPadding}: ${instruction}${instPadding} ${operandsStr}\n`
+      );
     }, "");
   }, [expression]);
 
