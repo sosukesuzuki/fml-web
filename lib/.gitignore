@@ -1,4 +1,5 @@
 /fml_node_to_json_tests
+/fml_instructions_to_json_tests
 /*.o
 /fml_web.js
 /fml_web.wasm
