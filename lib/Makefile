@@ -15,7 +15,7 @@ FORMAT_FILES := $(wildcard *.c) $(wildcard *.h)
 
 FML_NODE_TO_JSON_TESTS_SRC_FILES := fml_node_to_json_tests.c fml_node_to_json.c ./fml/fml_parser.c
 FML_INSTRUCTIONS_TO_JSON_TESTS_SRC_FILES := fml_instructions_to_json_tests.c fml_instructions_to_json.c ./fml/fml_instructions.c
-FML_WEB_SRC_FILES := fml_web.c fml_node_to_json.c ./fml/fml_parser.c
+FML_WEB_SRC_FILES := fml_web.c fml_node_to_json.c fml_instructions_to_json.c ./fml/fml_parser.c ./fml/fml_instructions.c  ./fml/fml_compiler.c
 
 FML_NODE_TO_JSON_TESTS_OBJECT_FILES = $(FML_NODE_TO_JSON_TESTS_SRC_FILES:.c=.o)
 FML_INSTRUCTIONS_TO_JSON_TESTS_OBJECT_FILES = $(FML_INSTRUCTIONS_TO_JSON_TESTS_SRC_FILES:.c=.o)
