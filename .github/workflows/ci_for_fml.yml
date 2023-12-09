@@ -1,0 +1,14 @@
+name: CI for fml
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run all tests
+        working-directory: lib
+        run: make -j4 run-all-tests

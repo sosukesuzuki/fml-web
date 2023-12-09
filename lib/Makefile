@@ -33,6 +33,8 @@ fml_node_to_json_tests: $(FML_NODE_TO_JSON_TESTS_OBJECT_FILES)
 run-fml-node-to-json-tests: fml_node_to_json_tests
 	./$(FML_NODE_TO_JSON_TESTS_EXECUTABLE_FILE)
 
+run-all-tests: run-fml-node-to-json-tests
+
 # ====================================================================
 # Development utils
 # ====================================================================
