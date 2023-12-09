@@ -1,5 +1,5 @@
 import { ChangeEvent, useMemo, useState } from "react";
-import { Input, Text } from "@kuma-ui/core";
+import { Input, Text, Box } from "@kuma-ui/core";
 
 type Fml = {
   parse: (expression: string) => string;
@@ -21,6 +21,16 @@ async function loadFml(): Promise<Fml> {
   return fml;
 }
 
+function CodeBlock({ children }: { children: string }) {
+  return (
+    <Box border="1px solid black" width="100%" p={4}>
+      <pre style={{ margin: 0 }}>
+        <code style={{ fontFamily: "Monaco, monospace" }}>{children}</code>
+      </pre>
+    </Box>
+  );
+}
+
 export default function FmlTable() {
   const [expression, setExpression] = useState("");
   const [text, setText] = useState("");
@@ -36,12 +46,26 @@ export default function FmlTable() {
     }
     return fml.parse(expression);
   }, [expression]);
+
   const instructions = useMemo(() => {
     if (fml === null || expression === "") {
       return "";
     }
-    return fml.compile(expression);
+    const insts: string[] = JSON.parse(fml.compile(expression));
+    let longestInstLength = 0;
+    const parsed: { idx: number; instruction: string; operands: string[] }[] =
+      insts.map((instStr, idx) => {
+        longestInstLength = Math.max(longestInstLength, instStr.length);
+        const [instruction, ...operands] = instStr.split(" ");
+        return { idx, instruction, operands };
+      });
+    return parsed.reduce((acc, { idx, instruction, operands }) => {
+      const operandsStr = operands.join(", ");
+      const padding = " ".repeat(longestInstLength - instruction.length);
+      return acc + `${idx}: ${instruction}${padding} ${operandsStr}\n`;
+    }, "");
   }, [expression]);
+
   if (fml === null) {
     throw loadFml().then((fmlApi) => {
       fml = fmlApi;
@@ -52,7 +76,7 @@ export default function FmlTable() {
       <tbody>
         <tr>
           <td>
-            <Text>Expression:</Text>
+            <Text m={0}>Expression:</Text>
           </td>
           <td>
             <Input
@@ -65,7 +89,7 @@ export default function FmlTable() {
         </tr>
         <tr>
           <td>
-            <Text>Text:</Text>
+            <Text m={0}>Text:</Text>
           </td>
           <td>
             <Input
@@ -78,21 +102,25 @@ export default function FmlTable() {
         </tr>
         <tr>
           <td>
-            <Text>Result:</Text>
+            <Text m={0}>Result:</Text>
           </td>
           <td>{result}</td>
         </tr>
         <tr>
           <td>
-            <Text>AST:</Text>
+            <Text m={0}>AST:</Text>
           </td>
-          <td>{ast}</td>
+          <td>
+            <CodeBlock>{ast}</CodeBlock>
+          </td>
         </tr>
         <tr>
           <td>
-            <Text>Instructions:</Text>
+            <Text m={0}>Instructions:</Text>
           </td>
-          <td>{instructions}</td>
+          <td>
+            <CodeBlock>{instructions}</CodeBlock>
+          </td>
         </tr>
       </tbody>
     </table>
