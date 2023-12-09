@@ -1,0 +1,19 @@
+{
+  "name": "lib-fml-web",
+  "private": true,
+  "license": "MIT",
+  "author": {
+    "name": "Sosuke Suzuki"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./fml-web.js"
+  },
+  "files": [
+    "fml-web.js",
+    "fml-web.wasm"
+  ],
+  "scripts": {
+    "build": "make fml-web.js"
+  }
+}
