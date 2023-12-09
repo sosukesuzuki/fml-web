@@ -1,6 +1,8 @@
 #include "fml/fml_compiler.h"
 #include "fml/fml_instructions.h"
 #include "fml/fml_parser.h"
+#include "fml/fml_vm.h"
+#include "fml/fml_vm_stack.h"
 
 #include "fml_instructions_to_json.h"
 #include "fml_node_to_json.h"
@@ -33,7 +35,21 @@ char* compileToInstructions(char* input)
 }
 
 EMSCRIPTEN_KEEPALIVE
-void freeString(char* str)
+int test(char* regexp, char* input)
 {
-    free(str);
+    Node* node = malloc(sizeof(Node));
+    parseRegexp(node, regexp);
+
+    Instructions* instructions = malloc(sizeof(Instructions));
+    initInstructions(instructions);
+    compile(node, instructions);
+
+    VMStack* stack = malloc(sizeof(VMStack));
+    initVMStack(stack);
+
+    VMContext* context = malloc(sizeof(VMContext));
+    initVM(context, &input, instructions, stack);
+
+    int r = runVM(context);
+    return r;
 }

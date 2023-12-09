@@ -14,11 +14,14 @@ export default function App() {
           ["string"],
           []
         ),
+        test: Module.cwrap("test", "number", ["string", "string"], []),
       };
       const parseResult = api.parse("a|a");
       const compileResult = api.compile("a|a");
+      const testResult = api.test("a|b", "c");
       console.log(parseResult);
       console.log(compileResult);
+      console.log(testResult);
     })();
   }, []);
 
