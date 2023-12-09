@@ -8,9 +8,17 @@ export default function App() {
       const Module = await module();
       const api = {
         parse: Module.cwrap("parse", "string", ["string"], []),
+        compile: Module.cwrap(
+          "compileToInstructions",
+          "string",
+          ["string"],
+          []
+        ),
       };
-      const result = api.parse("a|a");
-      console.log(result);
+      const parseResult = api.parse("a|a");
+      const compileResult = api.compile("a|a");
+      console.log(parseResult);
+      console.log(compileResult);
     })();
   }, []);
 
