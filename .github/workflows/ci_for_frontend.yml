@@ -10,16 +10,14 @@ jobs:
         with:
           submodules: true
 
-      - name: Install Emscripten
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Emscripten and build
         run: |
           git clone https://github.com/emscripten-core/emsdk.git
           cd emsdk
           ./emsdk install latest
           ./emsdk activate latest
           source ./emsdk_env.sh
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
+          npm run build
