@@ -44,7 +44,7 @@ export default function FmlTable() {
     if (fml === null || expression === "") {
       return "";
     }
-    return fml.parse(expression);
+    return JSON.stringify(JSON.parse(fml.parse(expression)), null, 2);
   }, [expression]);
 
   const instructions = useMemo(() => {
