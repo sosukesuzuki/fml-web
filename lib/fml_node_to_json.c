@@ -1,10 +1,12 @@
 #include "fml/fml_parser.h"
-#include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 char* nodeToJson(Node* node);
 
-char* charNodeToJson(CharNode* charNode) {
+char* charNodeToJson(CharNode* charNode)
+{
     char* json = malloc(15);
     if (json) {
         sprintf(json, "{\"char\":\"%c\"}", charNode->c);
@@ -12,7 +14,8 @@ char* charNodeToJson(CharNode* charNode) {
     return json;
 }
 
-char* altNodeToJson(AltNode* altNode) {
+char* altNodeToJson(AltNode* altNode)
+{
     char* leftJson = nodeToJson(altNode->left);
     char* rightJson = nodeToJson(altNode->right);
     int length = strlen(leftJson) + strlen(rightJson) + 20;
@@ -25,7 +28,8 @@ char* altNodeToJson(AltNode* altNode) {
     return json;
 }
 
-char* concatNodeToJson(ConcatNode* concatNode) {
+char* concatNodeToJson(ConcatNode* concatNode)
+{
     char* leftJson = nodeToJson(concatNode->left);
     char* rightJson = nodeToJson(concatNode->right);
     int length = strlen(leftJson) + strlen(rightJson) + 25;
@@ -38,7 +42,8 @@ char* concatNodeToJson(ConcatNode* concatNode) {
     return json;
 }
 
-char* qtfrNodeToJson(QtfrNode* qtfrNode) {
+char* qtfrNodeToJson(QtfrNode* qtfrNode)
+{
     char* childJson = nodeToJson(qtfrNode->child);
     int length = strlen(childJson) + 15;
     char* json = malloc(length);
@@ -49,20 +54,21 @@ char* qtfrNodeToJson(QtfrNode* qtfrNode) {
     return json;
 }
 
-char* nodeToJson(Node* node) {
+char* nodeToJson(Node* node)
+{
     if (node == NULL) {
         return strdup("{}");
     }
     switch (node->kind) {
-        case NODE_CHAR:
-            return charNodeToJson(&node->u.charNode);
-        case NODE_ALT:
-            return altNodeToJson(&node->u.altNode);
-        case NODE_CONCAT:
-            return concatNodeToJson(&node->u.concatNode);
-        case NODE_QTFR:
-            return qtfrNodeToJson(&node->u.qtfrNode);
-        default:
-            return strdup("{}");
+    case NODE_CHAR:
+        return charNodeToJson(&node->u.charNode);
+    case NODE_ALT:
+        return altNodeToJson(&node->u.altNode);
+    case NODE_CONCAT:
+        return concatNodeToJson(&node->u.concatNode);
+    case NODE_QTFR:
+        return qtfrNodeToJson(&node->u.qtfrNode);
+    default:
+        return strdup("{}");
     }
 }
