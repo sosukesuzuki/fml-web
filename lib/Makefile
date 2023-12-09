@@ -47,3 +47,6 @@ run-all-tests: run-fml-node-to-json-tests
 
 format:
 	$(CLANG_FORMAT) -i $(FORMAT_FILES)
+
+clean:
+	rm -f $(FML_NODE_TO_JSON_TESTS_EXECUTABLE_FILE) $(FML_NODE_TO_JSON_TESTS_OBJECT_FILES)
